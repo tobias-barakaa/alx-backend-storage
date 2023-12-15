@@ -1,9 +1,3 @@
--- Check if the database exists
-CREATE DATABASE IF NOT EXISTS holberton;
-
--- Use the holberton database
-USE holberton;
-
 -- Check if the table exists
 DELIMITER //
 
