@@ -1,3 +1,4 @@
+-- SQL script that lists all bands with Glam rock
 SELECT band_name, 
        CASE 
            WHEN formed = 0 OR split = 0 THEN 0
@@ -6,4 +7,3 @@ SELECT band_name,
 FROM metal_bands
 WHERE style LIKE '%Glam rock%'
 ORDER BY lifespan DESC, band_name;
-
