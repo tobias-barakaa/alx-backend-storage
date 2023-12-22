@@ -1,0 +1,2 @@
+//script that deletes
+db.school.remove({ "name": "Holberton school" }, { "address": "972 Mission street" })
