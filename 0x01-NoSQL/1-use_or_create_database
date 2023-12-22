@@ -1,2 +1,2 @@
 // Create databases;
-my_db my_db;
+use my_db;
