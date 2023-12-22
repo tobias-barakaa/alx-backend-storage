@@ -1,7 +1,2 @@
-// my comment
-
-// Import the necessary MongoDB library
-var db = new Mongo().getDB("admin");
-
-// Print the list of databases
-printjson(db.runCommand({ listDatabases: 1 }));
+// show databases;
+show databases;
