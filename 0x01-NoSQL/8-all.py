@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# 8-all.py
+"""
+function to list all
+"""
+
 
 def list_all(mongo_collection):
     """
@@ -15,4 +18,3 @@ def list_all(mongo_collection):
     documents = list(mongo_collection.find({}))
 
     return documents
-
