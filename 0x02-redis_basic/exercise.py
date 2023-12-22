@@ -2,27 +2,37 @@
 """
 Main file
 """
-from functools import wraps
 import redis
 import uuid
 from typing import Union, Callable
-
+from functools import wraps
 
 class Cache:
     def __init__(self):
         """
         Initialize the Cache class with a Redis client instance and flush the database.
         """
+        # Create an instance of the Redis client and flush the database
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     @staticmethod
-    def count_calls(method):
+    def count_calls(method: Callable) -> Callable:
+        """
+        Decorator to count the number of calls to a method.
+
+        :param method: The method to be decorated.
+        :return: Decorated method.
+        """
         @wraps(method)
         def wrapper(self, *args, **kwargs):
-            key = f"calls:{method.__qualname__}"  # Using the method's qualified name as the key
-            self._redis.incr(key)  # Increment the count for this method
-            return method(self, *args, **kwargs)  # Execute the original method
+            key = method.__qualname__
+            # Increment the count for the method key
+            count_key = f"{key}_calls_count"
+            self._redis.incr(count_key)
+            # Call the original method and return its result
+            result = method(self, *args, **kwargs)
+            return result
         return wrapper
 
     @count_calls
@@ -33,13 +43,16 @@ class Cache:
         :param data: The data to be stored, can be str, bytes, int, or float.
         :return: The randomly generated key used for storing the data.
         """
+        # Generate a random key using uuid
         key = str(uuid.uuid4())
         
+        # Store the input data in Redis using the random key
         if isinstance(data, (str, bytes, int, float)):
             self._redis.set(key, data)
         else:
             raise ValueError("Invalid data type. Supported types are str, bytes, int, or float.")
 
+        # Return the generated key
         return key
 
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, None]:
