@@ -1,2 +1,2 @@
 //script that deletes
-db.school.remove({"name": "Holberton school"})
+db.school.deleteOne({"name": "Holberton school"})
